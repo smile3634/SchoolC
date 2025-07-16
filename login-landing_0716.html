@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 찾아가는 학교 컨설팅 로그인</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* 배경 애니메이션 */
+        .bg-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .bg-animation span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            animation: move 25s linear infinite;
+            bottom: -150px;
+        }
+
+        .bg-animation span:nth-child(1) {
+            left: 25%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+
+        .bg-animation span:nth-child(2) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .bg-animation span:nth-child(3) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 4s;
+        }
+
+        .bg-animation span:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .bg-animation span:nth-child(5) {
+            left: 65%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .bg-animation span:nth-child(6) {
+            left: 75%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+
+        .bg-animation span:nth-child(7) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 7s;
+        }
+
+        .bg-animation span:nth-child(8) {
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 15s;
+            animation-duration: 45s;
+        }
+
+        .bg-animation span:nth-child(9) {
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            animation-delay: 2s;
+            animation-duration: 35s;
+        }
+
+        .bg-animation span:nth-child(10) {
+            left: 85%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 0s;
+            animation-duration: 11s;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        /* 로그인 컨테이너 */
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 420px;
+            transform: translateY(0);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo h1 {
+            color: #764ba2;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #764ba2;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(118, 75, 162, 0.1);
+        }
+
+        .form-group input:focus + label {
+            color: #764ba2;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .form-group:has(input:focus) .input-icon {
+            color: #764ba2;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 30px;
+        }
+
+        .submit-btn:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(118, 75, 162, 0.4);
+        }
+
+        .submit-btn:hover:before {
+            left: 100%;
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            color: #27ae60;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-error {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+
+        .alert-success {
+            background: #efe;
+            color: #3c3;
+            border: 1px solid #cfc;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 모바일 최적화 */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 40px 30px;
+            }
+            
+            .logo h1 {
+                font-size: 28px;
+            }
+        }
+
+        .info-box {
+            background: rgba(118, 75, 162, 0.1);
+            border: 1px solid rgba(118, 75, 162, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #764ba2;
+            line-height: 1.5;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="login-container">
+        <div class="logo">
+            <h1>찾아가는 학교 컨설팅 Portal</h1>
+            <p>계속하려면 로그인하세요</p>
+        </div>
+
+        <div id="alertBox" class="alert"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    placeholder="홍길동" 
+                    required
+                    autocomplete="name"
+                >
+                <span class="error-message" id="nameError">이름을 입력해주세요</span>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">휴대폰 번호</label>
+                <input 
+                    type="tel" 
+                    id="phone" 
+                    name="phone" 
+                    placeholder="010-1234-5678" 
+                    required
+                    autocomplete="tel"
+                    maxlength="13"
+                >
+                <span class="error-message" id="phoneError">올바른 휴대폰 번호를 입력해주세요</span>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                로그인
+            </button>
+        </form>
+
+        <p class="footer-text">
+            2025년 활동 강사/코디만 로그인할 수 있습니다
+        </p>
+
+        
+        <!-- <div class="info-box" id="devModeInfo" style="display: none;">
+            <strong>📋 개발 모드 - 테스트 계정</strong>
+            이름: 강경화, 전화: 010-1234-0368<br>
+            이름: 강문석, 전화: 010-1234-8108<br>
+            이름: 강민주, 전화: 010-1234-9916
+        </div> -->
+    </div>
+
+    <script>
+        // Google Apps Script Web App URL을 여기에 입력하세요
+        const CONFIG = {
+            GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbyOpO-31SvmD1q015BiDgO8XWYXyID4AY4dMPnfqsBa9E2163pNt0SyXkfpFPjCfkc5yQ/exec',
+            APPSHEET_APP_ID: '2f96b76f-5cea-4f06-aa43-30913dbdb1f5',
+            DEV_MODE: false // 운영 시 false로 변경
+        };
+
+        // 개발 모드 표시
+        if (CONFIG.DEV_MODE) {
+            document.getElementById('devModeInfo').style.display = 'block';
+        }
+
+        // 알림 메시지 표시
+        function showAlert(message, type = 'error') {
+            const alertBox = document.getElementById('alertBox');
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.style.display = 'block';
+            
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // 전화번호 자동 포맷팅
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^0-9]/g, '');
+            let formattedValue = '';
+            
+            if (value.length <= 3) {
+                formattedValue = value;
+            } else if (value.length <= 7) {
+                formattedValue = value.slice(0, 3) + '-' + value.slice(3);
+            } else if (value.length <= 11) {
+                formattedValue = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7);
+            } else {
+                formattedValue = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11);
+            }
+            
+            e.target.value = formattedValue;
+        });
+
+        // 개발 모드용 목업 로그인
+        async function mockLogin(name, phone) {
+            // 실제 엑셀 데이터 시뮬레이션
+            const mockDatabase = [
+                { cid: 'KN001', name: '강경화', phone: '010-1234-0368', email: 'abc@gmail.com', school: '강남고등학교', isTeacher: true, isCodi: true },
+                { cid: 'KN002', name: '강문석', phone: '010-1234-8108', email: 'abc@gmail.com', school: '강남고등학교', isTeacher: true, isCodi: false },
+                { cid: 'KN003', name: '강민주', phone: '010-1234-9916', email: 'abc@gmail.com', school: '강남고등학교', isTeacher: false, isCodi: true },
+                { cid: 'KN004', name: '강보람', phone: '010-1234-3332', email: 'abc@gmail.com', school: '강남고등학교', isTeacher: true, isCodi: true }
+            ];
+
+            // 서버 응답 시뮬레이션 (1.5초 딜레이)
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            const user = mockDatabase.find(u => 
+                u.name === name && 
+                u.phone === phone
+            );
+            
+            if (user) {
+                // 권한 확인
+                if (!user.isTeacher && !user.isCodi) {
+                    return {
+                        success: false,
+                        error: '2025년 활동 권한이 없습니다.'
+                    };
+                }
+                
+                return {
+                    success: true,
+                    data: {
+                        userId: user.cid,
+                        name: user.name,
+                        phone: user.phone,
+                        email: user.email,
+                        school: user.school,
+                        isTeacher: user.isTeacher,
+                        isCodi: user.isCodi,
+                        activity: user.isTeacher && user.isCodi ? '강사, 코디' : (user.isTeacher ? '강사' : '코디'),
+                        timestamp: new Date().toISOString()
+                    }
+                };
+            } else {
+                return {
+                    success: false,
+                    error: '등록되지 않은 강사입니다. 성명과 휴대폰번호를 확인해주세요.'
+                };
+            }
+        }
+
+        // Google Apps Script로 로그인 확인
+        async function googleScriptLogin(name, phone) {
+            try {
+                const response = await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // CORS 문제 회피
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'login',
+                        name: name,
+                        phone: phone
+                    })
+                });
+
+                // no-cors 모드에서는 응답을 읽을 수 없으므로
+                // Google Apps Script에서 리다이렉트 처리
+                return {
+                    success: true,
+                    message: 'Google Apps Script로 요청 전송됨'
+                };
+
+            } catch (error) {
+                console.error('Google Script 오류:', error);
+                return {
+                    success: false,
+                    error: '서버 연결에 실패했습니다.'
+                };
+            }
+        }
+
+        // 폼 제출 처리
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // 에러 메시지 초기화
+            document.getElementById('nameError').style.display = 'none';
+            document.getElementById('phoneError').style.display = 'none';
+            
+            // 입력값 가져오기
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            
+            // 유효성 검사
+            let isValid = true;
+            
+            if (!name) {
+                document.getElementById('nameError').style.display = 'block';
+                isValid = false;
+            }
+            
+            const phoneRegex = /^010-\d{4}-\d{4}$/;
+            if (!phoneRegex.test(phone)) {
+                document.getElementById('phoneError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // 로딩 상태 표시
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '로그인 중...<span class="loading"></span>';
+            submitBtn.disabled = true;
+            
+            try {
+                // 로그인 처리
+                const result = CONFIG.DEV_MODE 
+                    ? await mockLogin(name, phone)
+                    : await googleScriptLogin(name, phone);
+                
+                if (result.success) {
+                    showAlert('로그인 성공! 페이지를 이동합니다...', 'success');
+                    
+                    // AppSheet URL 생성
+                    const userData = encodeURIComponent(JSON.stringify({
+                        cid: result.data?.userId || 'GUEST',
+                        name: name,
+                        phone: phone,
+                        activity: result.data?.activity || '',
+                        loginTime: new Date().toISOString()
+                    }));
+                    
+                    const appSheetUrl = `https://www.appsheet.com/start/${CONFIG.APPSHEET_APP_ID}#view=Home&userId=${result.data?.userId}&data=${userData}`;
+                    
+                    console.log('로그인 성공:', result.data);
+                    console.log('AppSheet URL:', appSheetUrl);
+                    
+                    // 1.5초 후 리다이렉트
+                    setTimeout(() => {
+                        if (!CONFIG.DEV_MODE) {
+                            window.location.href = appSheetUrl;
+                        } else {
+                            alert(`[개발 모드]\n\n로그인 성공!\nCID: ${result.data.userId}\n권한: ${result.data.activity}\n\n실제 운영 시:\n1. Google Apps Script URL 설정\n2. AppSheet 앱 ID 설정\n3. DEV_MODE를 false로 변경`);
+                            // 폼 초기화
+                            document.getElementById('loginForm').reset();
+                        }
+                    }, 1500);
+                    
+                } else {
+                    showAlert(result.error || '로그인에 실패했습니다.');
+                }
+                
+            } catch (error) {
+                console.error('로그인 오류:', error);
+                showAlert('로그인 처리 중 오류가 발생했습니다.');
+            } finally {
+                // 버튼 원상복구
+                if (!result || !result.success) {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            }
+        });
+
+        // 개발 모드 콘솔 안내
+        if (CONFIG.DEV_MODE) {
+            console.log('🔧 개발 모드 활성화됨');
+            console.log('📋 테스트 계정:');
+            console.log('- 이름: 강경화, 전화: 010-1234-0368 (강사+코디)');
+            console.log('- 이름: 강문석, 전화: 010-1234-8108 (강사)');
+            console.log('- 이름: 강민주, 전화: 010-1234-9916 (코디)');
+            console.log('\n⚙️ 설정 필요:');
+            console.log('1. Google Apps Script 배포 후 URL 입력');
+            console.log('2. AppSheet 앱 ID 입력');
+            console.log('3. DEV_MODE를 false로 변경');
+        }
+    </script>
+</body>
+</html>
